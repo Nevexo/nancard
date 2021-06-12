@@ -181,3 +181,13 @@ Success Expect: 204 NO CONTENT
 
 Failure Expect: 401 UNAUTHORIZED / 400 BAD REQUEST / 500 INTERNAL SERVER ERROR
 
+## API Endpoints - Transactions
+
+### GET /api/users/:id/transactions
+
+Get a list of transactions for a specific user
+
+JSON: `{"initated": [{Transaction}], "target": [{Transaction}]}`
+
+Where initated transactions are created by the user, target and transactions
+created by users/businesses that effect this user.
