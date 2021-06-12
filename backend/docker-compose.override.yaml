@@ -1,0 +1,4 @@
+services:
+  database:
+    ports:
+      - 27017:27017

@@ -1,0 +1,11 @@
+version: '3.8'
+
+volumes:
+  mongo:
+
+services:
+  database:
+    image: mongo
+    volumes:
+      - mongo:/data/db
+    
