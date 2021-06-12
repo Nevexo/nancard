@@ -2,6 +2,7 @@
 
 import { Router } from "express";
 import { User } from "../dao/models.js";
+import { log } from '../util/log.js';
 import EventEmitter from "events";
 import { nanoid, customAlphabet } from "nanoid";
 
@@ -36,6 +37,8 @@ router.post("/api/users", async (req, res) => {
 
   await user.save();
 
+  log.info(`creating new user ${user.id} (${user.username})`)
+
   // Return the user object
   res.status(200).json({
     "user_id": user.id,
@@ -56,6 +59,8 @@ router.delete("/api/users/:id", async (req, res) => {
   if (!user) return res.status(404).json({"error": "Invalid user"});
   if (user.credits > 0) return res.status(400).json({"error": "User has active credits"})
   if (user.pin != req.body.pin) return res.status(400).json({"error": "Invalid pin number provided"})
+
+  log.info(`deleted user ${user.id} (${user.username})`)
 
   await User.deleteOne({"id": user.id});
   res.sendStatus(204);

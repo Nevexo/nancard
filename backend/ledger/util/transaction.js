@@ -3,6 +3,7 @@
 import { nanoid, customAlphabet } from "nanoid";
 
 import { User, Transaction } from '../dao/models.js';
+import { log } from '../util/log.js';
 
 export const credit_user = async (userId, credits, description) => {
   // Credit the user from the system, this may only be called internally
@@ -10,6 +11,7 @@ export const credit_user = async (userId, credits, description) => {
 
   const user = await User.findOne({id: userId});
   if (!user) throw "InvalidUser";
+  log.info(`crediting ${user.id} (${user.username}) with ${credits} credits.`)
 
   // Create the transaction
   const transaction = new Transaction({

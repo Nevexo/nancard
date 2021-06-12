@@ -2,6 +2,14 @@
 
 The central service for storing account information, transactions & temporary passes.
 
+## TODO
+
+- Business accounts
+- Access passes
+- User initated transactions
+- Business initated transactions
+- WebSockets for live information
+
 ## Schemas
 
 ### User

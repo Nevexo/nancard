@@ -11,6 +11,7 @@ import * as CardRouter from './routes/cards.js';
 import * as TransactionRouter from './routes/transactions.js'
 
 import * as OnboardingUtil from './util/onboarding.js';
+import { log } from "./util/log.js";
 
 const app = express();
 app.use(bodyParser.json());
@@ -23,27 +24,15 @@ UserRouter.events.on("new_user", (data) => {
 })
 
 const main = async () => {
+  log.debug("connecting to database")
   await mongoose.connect(process.env.MONGO_URL || "mongodb://localhost/nancard", {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
 
-  app.listen(3000);
-
-  // const user = new User({
-  //   "id": "abc123",
-  //   "username": "big cheese",
-  //   "credits": 0,
-  //   "web": {
-  //     "activation_token": "123456"
-  //   },
-  //   "staff_member": true,
-  // })
-  
-  // await user.save();
-
-  // const user = await User.find({"id": "abc123"})
-  // console.dir(user);
+  app.listen(process.env.LISTEN_PORT || 3000, () => {
+    log.info(`http started listening at ${process.env.LISTEN_PORT || 3000}`)
+  });
 }
 
 main();
