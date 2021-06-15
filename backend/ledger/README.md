@@ -193,9 +193,47 @@ Failure Expect: 401 UNAUTHORIZED / 400 BAD REQUEST / 500 INTERNAL SERVER ERROR
 
 ### GET /api/users/:id/transactions
 
-Get a list of transactions for a specific user
+Get a list of transactions for a specific user, requires authorization from
+web or card rolling code
 
 JSON: `{"initated": [{Transaction}], "target": [{Transaction}]}`
 
 Where initated transactions are created by the user, target and transactions
 created by users/businesses that effect this user.
+
+## API Endpoints - Businesses
+
+### POST /api/business
+
+Create a new business, requires web authorization for a user.
+
+JSON: `{"friendly_name": "Unique friendly name for business"}`
+
+Success Expect: 200 OK + Business information
+
+Failure Expect: 401 UNAUTHORIZED / 400 BAD REQUEST
+
+### GET /api/business
+
+Get all businesses
+
+Success: Expect 200 OK + JSON array
+
+### GET /api/business/:id
+
+Get a specific business information, provide authorization header for
+credits count 
+
+Success Expect: 200 OK + JSON
+
+Failure expect: 404/401/400
+
+### GET /api/users/:user_id/businsses
+
+Get a list of businesses for a user, provide authorization header for
+credits count
+
+Success expect: 200 OK + JSON array
+
+Failure expect: 400/404/401
+
