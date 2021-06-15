@@ -82,3 +82,32 @@ router.get("/api/business/:id", async (req, res) => {
   // The user is authorised, send all information.
   res.json(business);
 })
+
+// Get businesses owned by a user
+router.get("/api/users/:id/businesses", async (req, res) => {
+  const businesses = await Business.find({"owner_id": req.params.id});
+  let safe = [];
+  let authenticated = false;
+
+  // Check for authentication 
+  if (req.headers.authorization) {
+    const user = await User.findOne({"web.access_token": req.headers.authorization});
+    if (user) {
+      if (user.id == req.params.id) authenticated = true;
+    }
+  }
+
+  for (const business of businesses) {
+    let data = {
+      "id": business.id,
+      "friendly_name": business.friendly_name,
+      "owner_id": business.owner_id
+    }
+
+    if (authenticated) data['credits'] = business.credits;
+
+    safe.push(data);
+  }
+
+  res.json(safe);
+})
